@@ -12,7 +12,7 @@ querystring = {
 
 headers = {
     "Api-Version": "1",
-    "Authorization": "Api Key WAbFf2.zqU68TNEDYFWKkCQMZxif8gxq16A60qD"
+    "Authorization": "Apikey WAbFf2.zqU68TNEDYFWKkCQMZxif8gxq16A60qD"
 }
 
 response = requests.request("GET", url, headers=headers, params=querystring)
