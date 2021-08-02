@@ -1,9 +1,10 @@
 import requests
+from pprint import pprint as pp
 
-url = "https://api.travelperk.com/travelsafe/restrictions"
+url = "https://sandbox.travelperk.com/travelsafe/restrictions"
 
 querystring = {
-    "origin":"FR",
+    "origin":"DE",
     "destination":"ES",
     "origin_type":"country_code",
     "destination_type":"country_code",
@@ -17,5 +18,5 @@ headers = {
 
 response = requests.request("GET", url, headers=headers, params=querystring)
 
-print(response.text)
+pp(response.text)
 
