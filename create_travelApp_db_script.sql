@@ -33,12 +33,27 @@ CREATE TABLE `CovidSafetyRequirements` (
 ## For adding weather API component plus essential items if we decide to
 
 CREATE TABLE `DestinationWeather` (
-    `DestinationCountry` varchar(45) NOT NULL,
+    `DestinationCity` varchar(45) NOT NULL,
     `RainyWeather` bit(1) '0' NOT NULL,              # yes/no
     `AvgMaxTemperature` int DEFAULT '0' NOT NULL, # optional
     `AvgMinTemperature` int DEFAULT '0' NOT NULL,  # optional
     `AverageDailyTemperature` int DEFAULT '0' NOT NULL, # ??
     )
+
+# Example top destinations in Europe: Paris, London, Rome, Florence, Barcelona, Swiss Alps, Amsterdam, Santorini.
+# Might not need API for this
+
+CREATE TABLE `CityWeatherByMonth` (
+    `Month` varchar(45) NOT NULL, # month must be a special data type (check)
+    `DestinationCity` varchar(45) NOT NULL,
+    `WeatherType` varchar(45) NOT NULL, # should be: Rainy-hot, Rainy-cold, Dry-hot, Dry-cold
+    )
+
+INSERT INTO `CityWeatherByMonth`
+(`Month`, `DestinationCity`, `WeatherType`)
+VALUES
+('January', 'Paris', 'Dry-cold'),
+('January', 'London', 'Rainy-cold'), ......
 
 CREATE TABLE `EssentialItems` (
     `EssentialItem` varchar(45) NOT NULL,
@@ -75,7 +90,7 @@ VALUES
 ('CoolingFacialMist', 1, 0, 1, 0),
 ('InsectRepellent', 1, 0, 0, 0);
 
-#################  OTHER  GENERAL STUFF BELOW
+###########################################  OTHER  GENERAL STUFF BELOW
 
 CREATE TABLE `CovidRestrictionsByCountry` (
   `DestinationCountry` varchar(45) NOT NULL,
