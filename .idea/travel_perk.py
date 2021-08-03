@@ -34,7 +34,7 @@ print('Documents needed: ', to_fill)
 
 ###to see whole dictionary
 
-# 
+#
 # dictionary = json.dumps(response.json(), sort_keys = True, indent = 4)
 # print(dictionary)
 
