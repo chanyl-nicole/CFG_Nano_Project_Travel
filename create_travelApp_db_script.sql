@@ -58,11 +58,11 @@ VALUES
 CREATE TABLE `EssentialItems` (
     `EssentialItem` varchar(45) NOT NULL,
     `WeatherType` varchar(45) NOT NULL, # Options: RainyWarm, RainyCold, DryWarm, DryCold
-    `ItemNeeded` bit(1) '0' NOT NULL,   # Item needed yes (1) / no (0)
+    `ItemNeeded` bit(1) '0' NOT NULL,   # Item needed yes (1) / no (0) -- need to delete the '0'
     CONSTRAINT PK_EssentialItem_weather PRIMARY KEY (`EssentialItem`, `WeatherType`)
     );
 
-ALTER TABLE `EssentialItems`
+ALTER TABLE `EssentialItems`. -- I couldn't get this bit to work with the Foreign Key
 ADD CONSTRAINT
 fk_weather_type
 FOREIGN KEY
