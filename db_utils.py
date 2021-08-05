@@ -16,10 +16,8 @@ def _connect_to_db(db_name):
     )
     return cnx
 
-### weather type and desitnation cities are placeholders and can change the type in cur.execute query
-### These should be updated depending on user inputs - but how?
 
-def show_essential_items():
+def show_essential_items(month, city):
     essential_items = []
     try:
         db_name = 'travelApp'
@@ -30,14 +28,12 @@ def show_essential_items():
         query = """
         SELECT EssentialItem FROM CityWeatherByMonth as c 
         JOIN EssentialItems as e ON c.weatherType = e.weatherType  
-        WHERE Month = %s AND DestinationCity = %s AND ItemNeeded = 1
-        """
-        cur.execute(query, ('August', 'London', ))
+        WHERE Month = '{month}' AND DestinationCity = '{city}' AND ItemNeeded = 1
+        """.format(month=month, city=city)
+        cur.execute(query)
 
         items = cur.fetchall()
         essential_items.append(items)
-        # for essential_item in essential_items:
-        #     print(essential_item)
         cur.close()
 
     except Exception:
@@ -50,7 +46,7 @@ def show_essential_items():
 
     return essential_items
 
-print(show_essential_items())
+# print(show_essential_items())
 
 def show_cities():
     places = []
@@ -109,37 +105,3 @@ def show_months():
             print("DB connection is closed")
 
     return month
-
-# print(show_months())
-
-
-### I don't think the below  is needed
-
-# def show_essential_items_two():
-#     essential_items = []
-#     try:
-#         db_name = 'travelApp'
-#         db_connection = _connect_to_db(db_name)
-#         cur = db_connection.cursor()
-#         print("Connected to DB: %s" % db_name)
-#
-#         query = "SELECT EssentialItem FROM EssentialItems WHERE WeatherType = %s and ItemNeeded = 1"
-#         cur.execute(query,('DryWarm', ) )
-#
-#         items = cur.fetchall()
-#         essential_items.append(items)
-#         # for essential_item in essential_items:
-#         #     print(essential_item)
-#         cur.close()
-#
-#     except Exception:
-#         raise DbConnectionError("Failed to read data from DB")
-#
-#     finally:
-#         if db_connection:
-#             db_connection.close()
-#             print("DB connection is closed")
-#
-#     return essential_items
-#
-# # print(show_essential_items())
