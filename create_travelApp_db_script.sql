@@ -1,23 +1,23 @@
 CREATE DATABASE travelApp;
 USE travelApp;
 
-### Stuff for adding weather and essential items feature if we decide to do so
-
-# Top 8 destinations in Europe: Paris, London, Rome, Florence, Barcelona, Swiss Alps, Amsterdam, Santorini.
-
-# NOTES:
-# Data for the summer months (June, July, August, September) for the top 8 holiday destinations in Europe
-#   Warm weather considered that with average maximum temperature = or < 15C ; Cold weather < 15C
-#   Wet weather considered that with average rainfall = > 50 mm ; Dry weather < 50 mm
+-- ### Stuff for adding weather and essential items feature if we decide to do so
+--
+-- # Top 8 destinations in Europe: Paris, London, Rome, Florence, Barcelona, Swiss Alps, Amsterdam, Santorini.
+--
+-- # NOTES:
+-- # Data for the summer months (June, July, August, September) for the top 8 holiday destinations in Europe
+-- #   Warm weather considered that with average maximum temperature = or < 15C ; Cold weather < 15C
+-- #   Wet weather considered that with average rainfall = > 50 mm ; Dry weather < 50 mm
 
 CREATE TABLE `CityWeatherByMonth` (
     `Month` varchar(20) NOT NULL, # month must be a special data type (check)
     `DestinationCity` varchar(45) NOT NULL,
-    `WeatherType` varchar(45) NOT NULL, # Options: RainyWarm, RainyCold, DryWarm, DryCold
+    `WeatherType` varchar(45) NOT NULL, -- Options: RainyWarm, RainyCold, DryWarm, DryCold
     CONSTRAINT PK_month_destination PRIMARY KEY (`Month`,`DestinationCity`)
     );
 
-    # This table has a composite primary key to identify unique entries
+--    # This table has a composite primary key to identify unique entries
 
 INSERT INTO `CityWeatherByMonth`
 (`Month`, `DestinationCity`, `WeatherType`)
@@ -57,21 +57,24 @@ VALUES
 
 CREATE TABLE `EssentialItems` (
     `EssentialItem` varchar(45) NOT NULL,
-    `WeatherType` varchar(45) NOT NULL, # Options: RainyWarm, RainyCold, DryWarm, DryCold
-    `ItemNeeded` bit(1) '0' NOT NULL,   # Item needed yes (1) / no (0) -- need to delete the '0'
+    `WeatherType` varchar(45) NOT NULL, -- Options: RainyWarm, RainyCold, DryWarm, DryCold
+    `ItemNeeded` bit(1) DEFAULT 0 NOT NULL,   -- Item needed yes (1) / no (0) -- need to delete the '0'
     CONSTRAINT PK_EssentialItem_weather PRIMARY KEY (`EssentialItem`, `WeatherType`)
     );
 
-ALTER TABLE `EssentialItems`. -- I couldn't get this bit to work with the Foreign Key
-ADD CONSTRAINT
-fk_weather_type
-FOREIGN KEY
-(`WeatherType`)
-REFERENCES
-`CityWeatherByMonth`
-(`WeatherType`);
+-- Check with Anete if we need a foreign key here. I do not see how we could add it and I dont think is needed.
+-- ALTER TABLE `EssentialItems` -- I couldn't get this bit to work with the Foreign Key. Foreign key should be primary key on referenced table
+-- ADD CONSTRAINT
+-- fk_weather_type
+-- FOREIGN KEY
+-- (`WeatherType`) -- cannot only be `WeatherType` since PK in `CityWeatherByMonth` is both `WeatherType` and `Month`
+-- REFERENCES
+-- `CityWeatherByMonth`
+-- (`WeatherType`);
+-- Error Code: 1822. Failed to add the foreign key constraint. Missing index for constraint 'fk_weather_type' in the referenced table 'CityWeatherByMonth'
 
-INSERT INTO `EssentialItemsNeeded`
+
+INSERT INTO `EssentialItems`
 (`EssentialItem`, `WeatherType`, `ItemNeeded`)
 VALUES
 ('Umbrella', 'RainyWarm', 1),
@@ -162,6 +165,31 @@ VALUES
 ('InsectRepellent', 'RainyCold', 0),
 ('InsectRepellent', 'DryWarm', 0),
 ('InsectRepellent', 'DryCold', 0);
+
+CREATE TABLE `MyEssentials` (
+	`ItemID` int(10) NOT NULL,
+    `MyEssentialItem` varchar(45),
+    `QuantityNeeded`  int,
+    CONSTRAINT PK_itemID PRIMARY KEY (`ItemID`)
+    );
+
+INSERT INTO `MyEssentials`
+(`ItemID`, `MyEssentialItem`, `QuantityNeeded`)
+VALUES
+(1, NULL, NULL),
+(2, NULL, NULL),
+(3, NULL, NULL),
+(4, NULL, NULL),
+(5, NULL, NULL),
+(6, NULL, NULL),
+(7, NULL, NULL),
+(8, NULL, NULL),
+(9, NULL, NULL),
+(10, NULL, NULL);
+
+SELECT * FROM `CityWeatherByMonth`;
+SELECT * FROM `EssentialItems`;
+SELECT * FROM `MyEssentials`;
 
 
 ####################
