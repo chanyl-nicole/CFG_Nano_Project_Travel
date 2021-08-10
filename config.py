@@ -1,3 +1,4 @@
 HOST = "localhost"
 USER = "root"
-PASSWORD = "Climate123!"
+PASSWORD = "Unrayodesol15!"
+# PASSWORD = "Climate123!"
