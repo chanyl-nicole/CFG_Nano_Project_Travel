@@ -1,4 +1,4 @@
--- DROP DATABASE travelApp;
+-- DROP DATABASE travelApptrial;
 
 CREATE DATABASE travelApptrial;
 USE travelApptrial;
@@ -9,32 +9,20 @@ USE travelApptrial;
 -- #   Warm weather considered that with average maximum temperature = or < 15C ; Cold weather < 15C
 -- #   Wet weather considered that with average rainfall = > 50 mm ; Dry weather < 50 mm
 
-
-
-CREATE TABLE City (
-    City_id INT PRIMARY KEY AUTO_INCREMENT,
-    City VARCHAR(50) NOT NULL,
-    Country_id INT NOT NULL,
-    FOREIGN KEY (Country)
-        REFERENCES Country (Country_id),
-    Month_id INT NOT NULL,
-    Weather_type_id INT NOT NULL,
-    FOREIGN KEY (Weather_type_id)
-        REFERENCES weather (weather_type_id),
-    FOREIGN KEY (Month_id)
-        REFERENCES Months (month_id)
+CREATE TABLE Country (
+    Country_id INT PRIMARY KEY AUTO_INCREMENT,
+    Country VARCHAR(50) NOT NULL
 );
+ INSERT INTO Country(Country)
+ VALUES('France'),('United Kingdom'),('Italy'),('Switzerland'),
+ ('Greece'),('Spain'),('Netherlands');
 
-INSERT INTO CITY(City, Country,Month_id, Weather_type_id)
-VALUES  ('Paris',1,1,1),('Paris',1,2,1),('Paris',1,3,3),('Paris',1,4,3),
-('London',2,1,1), ('London',2,2,1),('London',2,3,3),('London',2,4,1),
-('Rome',3,1,3),('Rome',3,2,3),('Rome',3,3,3),('Rome',3,4,1),
-('Florence',3,1,1),('Florence',3,2,1),('Florence',3,3,3),('Florence',3,4,1),
-('Santorini',5,1,3), ('Santorini',5,2,3),('Santorini',5,3,3),('Santorini',5,4,3),
-('Swiss Alps',4,1,2), ('Swiss Alps',4,2,2),('Swiss Alps',4,3,2),('Swiss Alps',4,4,2),
-('Barcelona',6,1,3), ('Barcelona',6,2,3), ('Barcelona',6,3,3),('Barcelona',6,4,1),
-('Amsterdam',7,1,1),('Amsterdam',7,2,1),('Amsterdam',7,3,1),('Amsterdam',7,4,1);
-
+CREATE TABLE Months (
+    month_id INT PRIMARY KEY AUTO_INCREMENT,
+    Month VARCHAR(20) NOT NULL
+);
+ INSERT INTO Months(Month)
+VALUES('June'),('July'),('August'),('September');
 
 CREATE TABLE Weather (
     Weather_type_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -43,24 +31,7 @@ CREATE TABLE Weather (
 INSERT INTO Weather(Weather_type)
 VALUES('Rainy and Warm'),('Rainy and Cold'),('Dry and Warm'),('Dry and Cold');
 
-drop table months;
-CREATE TABLE Months (
-    month_id INT PRIMARY KEY AUTO_INCREMENT,
-    Month VARCHAR(20) NOT NULL
-);
- INSERT INTO Months(Month)
-VALUES('June'),('July'),('August'),('September');
-  SELECT Country FROM Countries  as cnt
-                    JOIN City as c ON c.Country_id =cnt.country_id
-                    where c.city = 'London';
 
-CREATE TABLE Country (
-    Country_id INT PRIMARY KEY AUTO_INCREMENT,
-    Country VARCHAR(50) NOT NULL
-);
- INSERT INTO Country(Country)
- VALUES('France'),('United Kingdom'),('Italy'),('Switzerland'),
- ('Greece'),('Spain'),('Netherlands');
 
 CREATE TABLE Essential_Items (
     Item_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -83,6 +54,33 @@ VALUES
 ('Cooling Towel',1),('Cooling Towel',3),('Cooling Facial Mist',1),('Cooling Facial Mist',3),
 ('Moisture-Wicking Clothing',1),('Moisture-Wicking Clothing',3),('Moisture-Wicking Clothing',4),
 ('Collapsible Water Bottle',1), ('Collapsible Water Bottle',3),('Insect Repellent',1);
+
+CREATE TABLE City (
+    City_id INT PRIMARY KEY AUTO_INCREMENT,
+    City VARCHAR(50) NOT NULL,
+    Country_id INT NOT NULL,
+    FOREIGN KEY (Country_id)
+        REFERENCES Country (Country_id),
+    Month_id INT NOT NULL,
+    Weather_type_id INT NOT NULL,
+    FOREIGN KEY (Weather_type_id)
+        REFERENCES weather (weather_type_id),
+    FOREIGN KEY (Month_id)
+        REFERENCES Months (month_id)
+);
+
+INSERT INTO CITY(City, Country_id,Month_id, Weather_type_id)
+VALUES  ('Paris',1,1,1),('Paris',1,2,1),('Paris',1,3,3),('Paris',1,4,3),
+('London',2,1,1), ('London',2,2,1),('London',2,3,3),('London',2,4,1),
+('Rome',3,1,3),('Rome',3,2,3),('Rome',3,3,3),('Rome',3,4,1),
+('Florence',3,1,1),('Florence',3,2,1),('Florence',3,3,3),('Florence',3,4,1),
+('Santorini',5,1,3), ('Santorini',5,2,3),('Santorini',5,3,3),('Santorini',5,4,3),
+('Swiss Alps',4,1,2), ('Swiss Alps',4,2,2),('Swiss Alps',4,3,2),('Swiss Alps',4,4,2),
+('Barcelona',6,1,3), ('Barcelona',6,2,3), ('Barcelona',6,3,3),('Barcelona',6,4,1),
+('Amsterdam',7,1,1),('Amsterdam',7,2,1),('Amsterdam',7,3,1),('Amsterdam',7,4,1);
+
+
+
 
 CREATE TABLE My_Essentials (
     MyEssentialItem VARCHAR(45),
