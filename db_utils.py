@@ -62,7 +62,7 @@ def get_country(city):
         # print("Connected to DB: %s" % db_name)
 
         query = """
-                    SELECT DISTINCT Country FROM Countries  as cnt
+                    SELECT DISTINCT Country FROM Country  as cnt
                     JOIN City as c ON c.Country_id =cnt.country_id
                     where c.city= '{}'
                    """.format(city)
