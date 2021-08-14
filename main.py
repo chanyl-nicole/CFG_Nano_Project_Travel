@@ -79,7 +79,7 @@ def choose_month():
     print ("Are you ready to book your summer holiday? You can travel in the following months: ")
     month_choices = get_month_choices()
     pp(month_choices)
-    month = input("What month would you like to travel in? ")
+    month = input("\n What month would you like to travel in? ")
 # IMPORTANT for DEBUGGING AND TESTING:
     # here, if input is not a valid month, should raise an Exception!!!!
     # also, good case for testing what happens if we give the right or wrong input!
@@ -96,11 +96,11 @@ def choose_city(month):
     """ This function allows the user to choose a city for
     their summer holidays and returns that city"""
 
-    print("The weather on the top 8 european destinations for {} is the following: ".format(month))
+    print("\nThe weather in the top 8 European destinations for {} is the following: ".format(month))
     city_weather = get_city_weather(month)
     for location in city_weather.keys():
         print(location, ':', '', city_weather[location])
-    user_city = input("Which city would you like to go to: ")
+    user_city = input("\nWhich city would you like to go to: ")
 
 
  # IMPORTANT for DEBUGGING AND TESTING:
@@ -128,7 +128,7 @@ def get_covid_info(city):
     the_city = json_result.get(['trips'][0])
     country = ''.join(x for x in the_city[0]['to'])
     restrictions = json_result['trips'][0]['advice']['restrictions']
-    print(f'COVID-19 restriction in {country}: ')
+    print(f'\nCOVID-19 restriction in {country}: ')
     for key, value in restrictions.items():
 
         for i, x in restrictions.get(key).items():
@@ -140,7 +140,7 @@ def add_personal_items():
     """ This function allows the user to add personal items
     needed for their holiday to the DB and returns a list of those items"""
 
-    print("You can save a remainder list of up to 10 personal items to bring to your trip")
+    print("\nYou can save a reminder list of up to 10 personal items to bring on your trip")
     user_items_list = []
     counter = 0
     while counter < 10:
@@ -175,10 +175,10 @@ def plan_your_trip():
     clear_items = remove_personal_items()
     essential_items = get_essential_items(month, city)
 
-    print("These are the suggested essential items for your trip: ")
+    print("\nThese are the suggested essential items for your trip: ")
     for i in essential_items:
         print(i[0])
-    print("These are your saved personal items to bring to your trip: ")
+    print("These are your saved personal items to bring on your trip: ")
     for i in personal_items:
         print(','.join(i))
 
