@@ -3,7 +3,7 @@
 # This is the code acting in the 'frontend'
 # Main function that runs our travel app is = plan_your_trip() function
 
-import requests
+import requests,string
 from db_utils import add_user_personal_items, remove_personal_items,get_country
 from pprint import pprint as pp
 
@@ -84,9 +84,11 @@ def choose_month():
         months.append(month[0])
     # print(months)
     month = input("What month would you like to travel in? ").capitalize().strip()
+    month = month.translate(month.maketrans("", "", string.punctuation))
     while month not in months:
         print(f'You cannot travel in {month.title()}')
         month = input("Please choose a valid month to travel in: ").capitalize().strip()
+        month = month.translate(month.maketrans("", "", string.punctuation))
     else:
         return month
     # IMPORTANT for DEBUGGING AND TESTING:
@@ -109,9 +111,11 @@ def choose_city(month):
     for location in city_weather.keys():
         print(location, ':', '', city_weather[location])
     city = input("\nWhich city would you like to go to: ").capitalize().strip()
+    city = city.translate(city.maketrans("", "", string.punctuation))
     while city not in city_weather.keys():
         print(f'You cannot travel to {city.title()}')
         city = input("Please choose a valid city to travel to: ").capitalize().strip()
+        city = city.translate(city.maketrans("", "", string.punctuation))
     else:
         return city
 
