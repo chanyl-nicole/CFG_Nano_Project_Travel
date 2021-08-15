@@ -83,10 +83,10 @@ def choose_month():
         print('-', month[0])
         months.append(month[0])
     # print(months)
-    month = input("What month would you like to travel in? ").capitalize()
+    month = input("What month would you like to travel in? ").capitalize().strip()
     while month not in months:
-        print(f'You cannot travel  in {month.title()}')
-        month = input("Please choose a month to travel in: ")
+        print(f'You cannot travel in {month.title()}')
+        month = input("Please choose a valid month to travel in: ").capitalize().strip()
     else:
         return month
     # IMPORTANT for DEBUGGING AND TESTING:
@@ -108,10 +108,10 @@ def choose_city(month):
     city_weather = get_city_weather(month)
     for location in city_weather.keys():
         print(location, ':', '', city_weather[location])
-    city = input("\nWhich city would you like to go to: ").capitalize()
+    city = input("\nWhich city would you like to go to: ").capitalize().strip()
     while city not in city_weather.keys():
         print(f'You cannot travel to {city.title()}')
-        city = input("Please choose a city to travel to: ")
+        city = input("Please choose a valid city to travel to: ").capitalize().strip()
     else:
         return city
 
@@ -142,7 +142,7 @@ def get_covid_info(city):
     the_city = json_result.get(['trips'][0])
     country = ''.join(x for x in the_city[0]['to'])
     restrictions = json_result['trips'][0]['advice']['restrictions']
-    print(f'\nCOVID-19 restriction in {country}: ')
+    print(f'\nCurrent COVID-19 restriction in {country}: ')
     for key, value in restrictions.items():
 
         for i, x in restrictions.get(key).items():
@@ -158,8 +158,8 @@ def add_personal_items():
     user_items_list = []
     counter = 0
     while counter < 10:
-        user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ")
-        if user_item != 'done':
+        user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ").capitalize().strip()
+        if user_item != 'Done':
             user_items_list=[]
         # TESTING    ### Good case for testing! What happens if input is 'done' or another word
             if user_item not in user_items_list:
@@ -183,7 +183,7 @@ def main():
 
     month = choose_month()
     city = choose_city(month)
-    covid = get_covid_info(city)
+    # covid = get_covid_info(city)
     add_items = add_personal_items()
     personal_items = get_personal_items()
     clear_items = remove_personal_items()
@@ -192,9 +192,14 @@ def main():
     print("\nThese are the suggested essential items for your trip: ")
     for item in essential_items:
         print('-', item[0].title())
-    print("These are your saved personal items to bring to your trip: ")
-    for item in personal_items:
-        print('-', item[0].title())
+    if len(personal_items)>0:
+        print("These are your saved personal items to bring to your trip: ")
+        for item in personal_items:
+            print('-', item[0].title())
+            print(f'\nEnjoy your Trip to {city}!')
+
+    else:
+        print(f'\nEnjoy your Trip to {city}!')
 
     all_items = essential_items + personal_items
 
