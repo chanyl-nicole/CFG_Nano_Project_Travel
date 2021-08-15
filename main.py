@@ -82,7 +82,7 @@ def choose_month():
     for month in month_choices:
         print('-', month[0])
         months.append(month[0])
-    print(months)
+    # print(months)
     month = input("What month would you like to travel in? ").capitalize()
     while month not in months:
         print(f'You cannot travel  in {month.title()}')
@@ -104,7 +104,7 @@ def choose_city(month):
     """ This function allows the user to choose a city for
        their summer holidays and returns that city"""
 
-    print("\nThe weather on the top 8 european destinations for {} is the following: ".format(month))
+    print("\nThe weather in the top 8 European destinations for {} is the following: ".format(month))
     city_weather = get_city_weather(month)
     for location in city_weather.keys():
         print(location, ':', '', city_weather[location])
@@ -154,11 +154,11 @@ def add_personal_items():
     """ This function allows the user to add personal items
     needed for their holiday to the DB and returns a list of those items"""
 
-    print("\nYou can save a reminder list of up to 10 personal items to bring on your trip")
+    print("\nYou can save a reminder list of up to 10 personal items to bring on your trip.")
     user_items_list = []
     counter = 0
     while counter < 10:
-        user_item = input("Please, enter item to be saved on list or enter 'done' when done: ")
+        user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ")
         if user_item != 'done':
             user_items_list=[]
         # TESTING    ### Good case for testing! What happens if input is 'done' or another word
@@ -183,6 +183,7 @@ def main():
 
     month = choose_month()
     city = choose_city(month)
+    covid = get_covid_info(city)
     add_items = add_personal_items()
     personal_items = get_personal_items()
     clear_items = remove_personal_items()
@@ -200,10 +201,7 @@ def main():
     return all_items
 
 
-#main() # Example input: Passport, Camera, Money, Asthma medication etc.
+# main() # Example input: Passport, Camera, Money, Asthma medication etc.
 
 if __name__ == '__main__':
     main()
-##### IDEAS OF EXTRA FUNCTIONALITY IF WE HAD TIME FOR REPORT:
-    # In table of personal essential items in database, allow incorporating quantity of items needed
-    # Allow deleting items from list/table of personal items in case usr input one by mistake or decides it is not longer needed
