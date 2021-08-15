@@ -1,7 +1,7 @@
--- DROP DATABASE travelApptrial;
+-- DROP DATABASE travelApp;
 
-CREATE DATABASE travelApptrial;
-USE travelApptrial;
+CREATE DATABASE travelApp;
+USE travelApp;
 
 -- # NOTES:
 -- # Top 8 destinations in Europe: Paris, London, Rome, Florence, Barcelona, Swiss Alps, Amsterdam, Santorini.
