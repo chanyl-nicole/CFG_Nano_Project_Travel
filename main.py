@@ -162,7 +162,7 @@ def add_personal_items():
 
 #####################   MAIN FUNCTION
 
-def plan_your_trip():
+def main():
     """ This function allows the user to choose a month and city for their
     summer holidays and to create a remainder list of personal items to bring to their trip
     and returns these items plus suggested essential items for the chosen destination"""
@@ -186,10 +186,10 @@ def plan_your_trip():
 
     return all_items
 
-plan_your_trip() # Example input: Passport, Camera, Money, Asthma medication etc.
+main() # Example input: Passport, Camera, Money, Asthma medication etc.
 
-# if __name__ == '__main__':   couldn't figure out how to get this to work
-#     main.run()
+if __name__ == '__main__':
+    main()
 ##### IDEAS OF EXTRA FUNCTIONALITY IF WE HAD TIME FOR REPORT:
     # In table of personal essential items in database, allow incorporating quantity of items needed
     # Allow deleting items from list/table of personal items in case usr input one by mistake or decides it is not longer needed

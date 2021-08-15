@@ -21,7 +21,7 @@ def _connect_to_db(db_name):
 def show_essential_items(month, city):
     """ This function returns a list of essential items for your trip"""
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # print("Connected to DB: %s" % db_name)
@@ -55,7 +55,7 @@ def show_essential_items(month, city):
 
 def get_country(city):
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
@@ -89,7 +89,7 @@ def get_country(city):
 def show_cities():
     """ This function returns a list of the top 8 european holiday destinations"""
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # print("Connected to DB: %s" % db_name)
@@ -119,7 +119,7 @@ def show_months():
     """ This function returns a list of the summer months in which
     the user can book a summer holiday"""
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # print("Connected to DB: %s" % db_name)
@@ -150,7 +150,7 @@ def show_cities_and_weather(month):
     """This function returns a dictionary with cities as keys and expected weather as
     values for a specific month"""
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # print("Connected to DB: %s" % db_name)
@@ -186,7 +186,7 @@ def add_user_personal_items(user_item):
     """ This function adds personal items inputted by the user
      to a table of essential personal items for travelling on the DB"""
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # print("Connected to DB: %s" % db_name)
@@ -215,7 +215,7 @@ def show_personal_items():
     """ This function returns a list of personal items needed for travelling
         previously stored in the DB by the user"""
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # print("Connected to DB: %s" % db_name)
@@ -245,7 +245,7 @@ def remove_personal_items():
     """ This function clears the table storing personal items
     inputted by the user in the DB """
     try:
-        db_name = 'travelApptrial'
+        db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # print("Connected to DB: %s" % db_name)
