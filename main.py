@@ -74,16 +74,24 @@ def get_personal_items():
 
 def choose_month():
     """ This function allows the user to choose a month for
-    their summer holidays and returns that month"""
+       their summer holidays and returns that month"""
 
-    print ("Are you ready to book your summer holiday? You can travel in the following months: ")
+    print("Are you ready to book your summer holiday? You can travel in the following months: ")
     month_choices = get_month_choices()
-    pp(month_choices)
-    month = input("\n What month would you like to travel in? ")
-# IMPORTANT for DEBUGGING AND TESTING:
+    months = []
+    for month in month_choices:
+        print('-', month[0])
+        months.append(month[0])
+    print(months)
+    month = input("What month would you like to travel in? ").capitalize()
+    while month not in months:
+        print(f'You cannot travel  in {month.title()}')
+        month = input("Please choose a month to travel in: ")
+    else:
+        return month
+    # IMPORTANT for DEBUGGING AND TESTING:
     # here, if input is not a valid month, should raise an Exception!!!!
     # also, good case for testing what happens if we give the right or wrong input!
-    return month
 
 # choose_month()
 
@@ -94,19 +102,25 @@ def choose_month():
 
 def choose_city(month):
     """ This function allows the user to choose a city for
-    their summer holidays and returns that city"""
+       their summer holidays and returns that city"""
 
-    print("\nThe weather in the top 8 European destinations for {} is the following: ".format(month))
+    print("\nThe weather on the top 8 european destinations for {} is the following: ".format(month))
     city_weather = get_city_weather(month)
     for location in city_weather.keys():
         print(location, ':', '', city_weather[location])
-    user_city = input("\nWhich city would you like to go to: ")
+    city = input("\nWhich city would you like to go to: ").capitalize()
+    while city not in city_weather.keys():
+        print(f'You cannot travel to {city.title()}')
+        city = input("Please choose a city to travel to: ")
+    else:
+        return city
 
-
- # IMPORTANT for DEBUGGING AND TESTING:
+    # IMPORTANT for DEBUGGING AND TESTING:
     # here, if input is not a valid city, should raise an Exception!!!!
     # also, good case for testing what happens if we give the right or wrong input!
-    return user_city
+    """ This function allows the user to choose a city for
+    their summer holidays and returns that city"""
+
 
 # choose_city('June')
 
@@ -164,29 +178,29 @@ def add_personal_items():
 
 def main():
     """ This function allows the user to choose a month and city for their
-    summer holidays and to create a remainder list of personal items to bring to their trip
-    and returns these items plus suggested essential items for the chosen destination"""
+        summer holidays and to create a remainder list of personal items to bring to their trip
+        and returns these items plus suggested essential items for the chosen destination"""
 
     month = choose_month()
     city = choose_city(month)
-    get_covid_info(city)
     add_items = add_personal_items()
     personal_items = get_personal_items()
     clear_items = remove_personal_items()
     essential_items = get_essential_items(month, city)
 
     print("\nThese are the suggested essential items for your trip: ")
-    for i in essential_items:
-        print(i[0])
-    print("These are your saved personal items to bring on your trip: ")
-    for i in personal_items:
-        print(','.join(i))
+    for item in essential_items:
+        print('-', item[0].title())
+    print("These are your saved personal items to bring to your trip: ")
+    for item in personal_items:
+        print('-', item[0].title())
 
     all_items = essential_items + personal_items
 
     return all_items
 
-main() # Example input: Passport, Camera, Money, Asthma medication etc.
+
+#main() # Example input: Passport, Camera, Money, Asthma medication etc.
 
 if __name__ == '__main__':
     main()
