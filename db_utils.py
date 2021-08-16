@@ -209,7 +209,7 @@ def add_user_personal_items(user_item):
     print("Personal item added")  # print("Personal item added to DB")
 
 
-# add_user_personal_items('Passport')
+# add_user_personal_items('raincoat')
 
 def show_personal_items():
     """ This function returns a list of personal items needed for travelling
