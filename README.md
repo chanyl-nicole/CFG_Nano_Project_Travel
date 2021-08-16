@@ -8,7 +8,7 @@ TravelApp
 ​
 TravelApp is an application developed to help the user plan their summer holidays. 
 ​
-TravelApp functions in the following manner: initially, it asks the user in which summer month (June, July, August or September) they will like to travel on. Then, the app provides the top 8 European holiday destinations and the expected weather in destination location for that month. With this information, user now makes a choice of the city they will like to travel to. After this, the app allows the user to input up to ten personal items to bring to their trip that will be stored in a 'remainder list'. Finally, the app returns a list of essential suggested items for the user to bring to their holidays (according to the expected weather on the destination of choice) and it also shows the personal items previously added by the user to the remainder list.
+TravelApp functions in the following manner: initially, it asks the user in which summer month (June, July, August or September) they would like to travel in. Then, the app provides the top 8 European holiday destinations and the expected weather in destination location for that month. With this information, user now makes a choice of the city they will like to travel to. After this, the app allows the user to input up to ten personal items to bring to their trip that will be stored in a 'reminder list'. Finally, the app returns a list of essential suggested items for the user to bring to their holidays (according to the expected weather on the destination of choice) and it also shows the personal items previously added by the user to the reminder list.
 ​
 Notes:
 ​
