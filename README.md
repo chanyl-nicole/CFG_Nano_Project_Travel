@@ -77,8 +77,8 @@ Here is a brief description of their functions:
 
 	def get_city_weather(month):
     		result = requests.get(
-        			'http://127.0.0.1:5001/travel/cities-weather-month/{}'.format(month),
-        			headers={'content-type': 'application/json'}
+        		'http://127.0.0.1:5001/travel/cities-weather-month/{}'.format(month),
+        		headers={'content-type': 'application/json'}
    		 )
    		 return result.json()
 		 
