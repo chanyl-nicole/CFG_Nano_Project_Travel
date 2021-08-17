@@ -83,7 +83,8 @@ def get_country(city):
     return country
 
 
-# print(get_country('London'))
+x= get_country('London')
+''.join(x[0])
 
 
 def show_cities():

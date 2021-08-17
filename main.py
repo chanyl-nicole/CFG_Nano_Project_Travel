@@ -6,6 +6,7 @@
 import requests,string
 from db_utils import add_user_personal_items, remove_personal_items,get_country
 from pprint import pprint as pp
+from time import sleep
 
 class SummerTrip:
     def __init__(self):
@@ -44,7 +45,7 @@ class SummerTrip:
             return self.month
 
 
-    def get_cities():
+    def get_cities(self):
         result = requests.get(
             'http://127.0.0.1:5001/travel/cities/',
             headers={'content-type': 'application/json'}
@@ -101,7 +102,7 @@ class PlanTrip(SummerTrip):
         self.destination= None
         self.essentials = None
         self.restrictions = None
-
+        
 
     def get_essential_items(self):
         month = self.month
@@ -173,33 +174,36 @@ class PlanTrip(SummerTrip):
     #try except if item already us in list, raise exception.
 
 
-    def get_covid_info(self):
-
+    def get_covid_restrictions(self):
+        
         res = get_country(self.destination)
-        url = "https://api.traveladviceapi.com/search/{}".format(','.join(*res))
+        res= ''.join(res[0])
+        url = "https://api.traveladviceapi.com/search/{}".format(res)
         payload = {}
         headers = {
-            'X-Access-Token': ''
+            'X-Access-Token': '01871f9a-1d26-469b-b7fb-7c49e4c6bac4'
         }
         # ee538d1a-ffac-462e-94f3-1b3710691e29 #orginal key
 
         response = requests.request("GET", url, headers=headers, data=payload)
         json_result = response.json()
-        the_city = json_result.get(['trips'][0])
-        country = ''.join(x for x in the_city[0]['to'])
+        
+      
+        travelling_to = json_result['trips'][0]['to'] #country
+    
         restrictions = json_result['trips'][0]['advice']['restrictions']
-        # print(the_city)
-        print(f'\n Here are the current COVID-19 restriction in {country}: ')
         
-        for key in restrictions.items():
-
-            for i, x in restrictions.get(key).items():
-                print(key.upper(), ": \n{:<10} {:<10} ".format(i, x))
+        self.restrictions=str([restrictions[i]['level_desc'].replace(',',' ')for i in restrictions])[1:-1]
         
-        self.restrictions = restrictions
-          # print(str(restrictions.items()).replace("_", " ").title())
-        return restrictions
        
+        print(f'\n Current COVID-19 restrictions in {travelling_to.replace(","," ")}:\n ')
+       
+        for i in restrictions:
+            print(i.upper().replace('_',' '), ': \n',restrictions[i]['level_desc'].replace(',',' '),'\n') 
+        
+        return self.restrictions
+        
+        
 
 #####################   MAIN FUNCTION
 
@@ -213,7 +217,8 @@ def main():
     trip_one.choose_city()
     trip_one.view_personal_items()
     trip_one.view_essentials()
-    trip_one.get_covid_info()
+    trip_one.get_covid_restrictions()
+   
 
 
 if __name__ == '__main__':
