@@ -1,5 +1,7 @@
-from flask import Flask,jsonify
-from db_utils import show_essential_items, show_months, show_cities, show_cities_and_weather, show_personal_items,get_country
+from flask import Flask, jsonify
+
+from db_utils import (get_country, show_cities, show_cities_and_weather,
+                      show_essential_items, show_months, show_personal_items)
 
 app = Flask(__name__)
 
