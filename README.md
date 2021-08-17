@@ -65,7 +65,7 @@ Here is a brief description of their functions:
 	    res = show_cities_and_weather(month)
     	    return jsonify(res)
 	    
-	 # Output = 
+	 Example output = 
 	    
 	    http://127.0.0.1:5001/travel/cities-weather-month/month
 
