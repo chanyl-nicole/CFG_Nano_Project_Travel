@@ -94,7 +94,7 @@ Here is a brief description of their functions:
 3) run app.py module to generate endpoints
 4) run main.py module
 
-	- This runs the main function plan_your_trip(): it allows the user to chose a month for their holidays, then, returns the expected weather for that month in the 8 proposed destinations, then, it allows the user to chose their destination. After that, the user is prompted to input up to 10 personal items that they would want to be reminded off to bring to their trip. Finally, it gives back a list of essential suggested items for the trip plus the personal items inputted by the user. For this, follow the set of instructions below (point 4).
+	- This runs the main function main(): it allows the user to chose a month for their holidays, then, returns the expected weather for that month in the 8 proposed destinations, then, it allows the user to chose their destination. After that, the user is prompted to input up to 10 personal items that they would want to be reminded off to bring to their trip. Finally, it gives back a list of essential suggested items for the trip plus the personal items inputted by the user. For this, follow the set of instructions below (point 4).
 	
 5) Follow instructions prompted in the python console:
 	Select the summer month you would like to travel in.
@@ -105,3 +105,6 @@ Here is a brief description of their functions:
 6)  ....................testing ..............................
 	- In order to run the testing module................
 
+	
+	
+Requests to the Travel Advice Api are limited to 100 per account on the free version. If you experience an authentication error for this then it may be that the limit has been reached. If this is the case please sign up for a free account at https://app.traveladviceapi.com/sign-up  to generate a new api key. Once you have received your key please insert into the string fields into line 152 of the Main.py file. (replace the existing key).
