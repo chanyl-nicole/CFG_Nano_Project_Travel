@@ -108,6 +108,8 @@ Here is a brief description of their functions:
 6) tests.py:
 
 	- This file can be run to test that the functions on main.py work as expected.
+	- *** In order run the tests created for the functions in the main.py module, the following command must be run on the terminal:
+	python3 -m unittest tests.py***
 
 
 ##### Instructions on how to run the app
@@ -115,7 +117,7 @@ Here is a brief description of their functions:
 1) Make sure that mysql-connector Python library is pip installed in your working environment.
 2) Replace the word "password" in the line 3 of the config.py file with your own mysql password.
 3) Run app.py module to generate endpoints.
-4) Run main.py module (whilse app.py is also running):
+4) Run main.py module (whilst app.py is also running):
 
 	- This runs the main function main(). This function allows the user to chose a month for their holidays, then, returns the expected weather for that month in the 8 top European holiday destinations. It then allows the user to chose their destination. After that, the user is prompted to input up to 10 personal items that they would want to be reminded of to bring on their trip. Finally, the app gives back a list of essential suggested items for the trip plus the personal items inputted by the user. The app finally returns the Covid-related restrictions for the country in which the destination city is situated. For this, follow the set of instructions below (point 5).
 	
