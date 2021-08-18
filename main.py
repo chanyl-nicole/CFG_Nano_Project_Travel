@@ -157,18 +157,22 @@ class TripPlan(SummerTrip):
         needed for their holiday to the DB and returns a list of those items"""
         user_items_list = []
         counter = 0
+
         while counter < 10:
-            user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ").capitalize().strip()
+            user_item = input(
+                "Please enter item to be saved on your personal list or enter 'done' when done: ").capitalize().strip()
             if user_item != 'Done':
-                user_items_list=[]
-        
+                user_items_list = []
+                # TESTING    ### Good case for testing! What happens if input is 'done' or another word
                 if user_item not in user_items_list:
                     user_items_list.append(user_item)
                     add_user_personal_items(user_item)
                     counter += 1
-                                    
-        else:
-            return user_items_list
+            else:
+                # print(user_items_list)
+                return user_items_list
+        # print(user_items_list)
+        return user_items_list
     
 
         #add_personal_items()
