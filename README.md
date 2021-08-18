@@ -6,9 +6,9 @@ TravelApp
 
 ##### About TravelApp
 
-TravelApp is an application developed to help the user plan their summer holidays. 
+TravelApp is an application developed to help the user plan their summer holidays.
 
-TravelApp functions in the following manner: initially, it asks the user in which summer month (June, July, August or September) they would like to travel in. Then, the app provides the top 8 European holiday destinations and the expected weather in those locations for that month. With this information, the user now makes a choice of the city they would like to travel to. After this, the app allows the user to input up to ten personal items to bring to their trip that will be stored in a 'remainder list'. Finally, the app returns a list of essential suggested items for the user to bring to their holidays (according to the expected weather on the destination of choice) and it also shows the personal items previously added by the user to the remainder list.
+TravelApp functions in the following manner: initially, it asks the user in which summer month (June, July, August or September) they would like to travel in. Then, the app provides the top 8 European holiday destinations (cities) and the expected weather in those locations for that month. The app also returns the Covid-related restrictions for the countries in which those cities situated. With this information, the user can make a choice of the city they would like to travel to. After this, the app allows the user to input up to ten personal items to bring to their trip and these will be stored in a 'remainder list'. Finally, the app returns a list of essential suggested items for the user to bring to their holidays (according to the expected weather on the destination of choice) and it also shows the personal items previously added by the user to the remainder list.
 
 Notes:
 
@@ -18,9 +18,11 @@ Notes:
 	
 	The app considers wet weather that with average monthly average rainfall = > 50 mm and dry weather that with average monthly average rainfall  < 50 mm.
 	
-	This information was obtained from Google weather graphs and used to classify the weather expected in each city for each month accordingly on our database.
+	This information was obtained from Google weather graphs and used to classify the weather expected in each city for each month accordingly in our database.
 	
-	The essential travel items for each weather type were obtained after searching several blogs and websites with information on the matter.
+	The essential travel items for each weather type were obtained after searching several blogs and websites with information on this matter.
+	
+	The country Covid-related restrictions are obtained by the app querying Travel Advice API.
 
 
 ##### Tools and packages needed to run TravelApp
@@ -28,31 +30,43 @@ Notes:
 In order to run TravelApp, the following tools/packages must be pre-installed:
 
 	1) mysql-connector Python library
-	
+
+In order run the tests created for the functions in the main.py module, the following command must be run on the terminal:
+
+	python3 -m unittest tests.py
+
 
 ##### App files
 
-1) create_travelApp_db_script.sql
+1) travel_app_db.sql
 2) config.py
 3) db_utils.py
 4) app.py
 5) main.py
-6)  ....................testing ..............................
+6) tests.py
 
 Here is a brief description of their functions:
 
-1) create_travelApp_db_script.sql: 
 
-	- sql script that builds the database for the app. It generates the following tables i) 'CityWeatherByMonth', in which each entry refers to a month, a city and the expected weather for that city during that month; ii) 'EssentialItems' in which each entry refers to an essential item, weather type and if the item is needed or not for that weather type and; iii) 'MyEssentials', which is an empty table that will be populated with items inputted by the user.
+1) travel_app_db.sql:
+
+	- sql script that builds the database for the app. It generates several tables: 
+	
+	i) 'Country', where each entry refers to a country in which the top destinations are located and these are given unique ids;
+	ii) 'Months', where each entry refers to a summer month and these are given unique ids; 	
+	iii) 'Weather', where each entry refers to a weather type and these are given unique ids; 
+	iv) 'Essential_items', where each entry refers to an essential item and the weather type for which that item is suggested as essential;
+	v) 'City', where each entry refers to a city, its country, each summer month and the expected weather for that city during that month;
+	vi) 'My_Essentials', which is an empty table that will be populated with items inputted by the user.
 
 2) config.py:
 
 	- Contains the 'host' name, 'user' name and 'password' stored as variables needed to be used by the function that establishes a connection with the sql database. This function is defined in the module db_utils.py.
 
-
 3) db_utils.py:
 
-	- This module contains the functions needed for establishing a connection to the database, querying the database and adding data to it. The functions on it do the following: i) retrieve data on the summer months in which the user can choose to travel; ii) retrieve the expected weather type for the top 8 European destinations for the chosen month; iii) retrieve the essential items needed for travelling in that type of weather. It also contains a function that iv) allows the app to insert data on the database table for personal essential items for the trip (to be inputed by the user); and another function that v) deletes the data on this last table so the table is emptied before the app is run again.
+	- This module contains the functions needed for establishing a connection to the database, querying the database and adding data to it. 
+	- The functions on it do the following: i) retrieve data on the summer months in which the user can choose to travel; ii) retrieve the expected weather type for the top 8 European destinations for the chosen month;  iii) retrieve the essential items needed for travelling in that type of weather; iv) allow the app to insert data on the database table for personal essential items for the trip (to be inputed by the user); and v) delete the data on this last table so the table is emptied before the app is run again. 
 
 4) app.py:
 
@@ -77,34 +91,33 @@ Here is a brief description of their functions:
 
 	def get_city_weather(month):
     		result = requests.get(
-        		'http://127.0.0.1:5001/travel/cities-weather-month/{}'.format(month),
-        		headers={'content-type': 'application/json'}
+        			'http://127.0.0.1:5001/travel/cities-weather-month/{}'.format(month),
+        			headers={'content-type': 'application/json'}
    		 )
    		 return result.json()
 		 
-	- The module also contains a set of helper functions that are finally invoked by the main function of the app. This function is called plan_your_trip(). 
+	- The module also contains a set of helper functions that are finally invoked by the main function of the app, including a function to retrieve Covid-related restrictions per country (by querying the Travel Advice API). The main function in this module is called main().
 
+7) tests.py:
 
-6)  ....................testing ..............................
+	- This module can be run to test that the functions on main.py work as expected.
+
 
 ##### Instructions on how to run the app
 
-1) Make sure that mysql-connector Python library is pip installed in your working environment
-2)
-3) run app.py module to generate endpoints
-4) run main.py module
+1) Make sure that mysql-connector Python library is pip installed in your working environment.
+2) Replace the word ''password" in the config.py file by your own mysql password.
+3) Run app.py module to generate endpoints.
+4) Run main.py module:
 
-	- This runs the main function main(): it allows the user to chose a month for their holidays, then, returns the expected weather for that month in the 8 proposed destinations, then, it allows the user to chose their destination. After that, the user is prompted to input up to 10 personal items that they would want to be reminded off to bring to their trip. Finally, it gives back a list of essential suggested items for the trip plus the personal items inputted by the user. For this, follow the set of instructions below (point 4).
+	- This runs the main function main(). This function allows the user to chose a month for their holidays, then, returns the expected weather for that month in the 8 top European holiday destinations. It also shows the Covid-related restrictions for the countries where those cities are located. It then allows the user to chose their destination. After that, the user is prompted to input up to 10 personal items that they would want to be reminded off to bring to their trip. Finally, the app gives back a list of essential suggested items for the trip plus the personal items inputted by the user. For this, follow the set of instructions below (point 5).
 	
-5) Follow instructions prompted in the python console:
-	Select the summer month you would like to travel in.
-	Select the city you would like to travel too.
-	Add personal items you would like to be reminded of to bring to your trip. You can add up to 10 items or just type 'done' if you don't have more items to add.
-	You now will get the suggested essential items plus your saved personal items to bring to your trip.
+5) Follow instructions prompted in the python console when running main.py:
+	- Select the summer month you would like to travel in.
+	- Select the city you would like to travel too.
+	- Add personal items you would like to be reminded of to bring to your trip. You can add up to 10 items or just type 'done' if you don't have more items to add.
+	- You now will get the suggested essential items and your saved personal items to bring to your trip.
 
-6)  ....................testing ..............................
-	- In order to run the testing module................
+IMPORTANT NOTE:
 
-	
-	
-Requests to the Travel Advice Api are limited to 100 per account on the free version. If you experience an authentication error for this then it may be that the limit has been reached. If this is the case please sign up for a free account at https://app.traveladviceapi.com/sign-up  to generate a new api key. Once you have received your key please insert into the string fields into line 152 of the Main.py file. (replace the existing key).
+Requests to the Travel Advice Api are limited to 100 per account on the free version. If you experience an authentication error for this then it may be that the limit has been reached. If this is the case please sign up for a free account at https://app.traveladviceapi.com/sign-up to generate a new api key. Once you have received your key please insert into the string fields into line 152 of the Main.py file. (Replace the existing key).
