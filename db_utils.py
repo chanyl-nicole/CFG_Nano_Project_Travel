@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector.errors import InterfaceError
 from config import USER, PASSWORD, HOST
 
 
@@ -83,7 +84,8 @@ def get_country(city):
     return country
 
 
-# print(get_country('London'))
+x= get_country('London')
+''.join(x[0])
 
 
 def show_cities():
@@ -197,6 +199,8 @@ def add_user_personal_items(user_item):
         cur.execute(query)
         db_connection.commit()
         cur.close()
+    except Exception:
+        InterfaceError("This item already exists in list.")
 
     except Exception:
         raise DbConnectionError("Failed to read data from DB")
@@ -284,3 +288,4 @@ def remove_personal_items():
 #         weather = cur.fetchall()
 #
 #         cur.close()
+
