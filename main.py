@@ -63,7 +63,7 @@ class SummerTrip:
                 month = input("Please choose a valid month to travel in: ").capitalize().strip()
                 month = month.translate(month.maketrans("", "", string.punctuation))
                 month = month.translate(month.maketrans("", "", string.digits))
-
+                self.month = month
         finally:
             return self.month
             
@@ -118,7 +118,7 @@ class TripPlan(SummerTrip):
         self.destination= None
         self.essentials = None
         self.restrictions = None
-        self.itinerary = None
+        self.personal = None
         
 
     def get_essential_items(self):
@@ -155,7 +155,6 @@ class TripPlan(SummerTrip):
     def add_personal_items(self):
         """ This function allows the user to add personal items
         needed for their holiday to the DB and returns a list of those items"""
-        
         user_items_list = []
         counter = 0
         while counter < 10:
@@ -188,10 +187,10 @@ class TripPlan(SummerTrip):
             if len(personal_items) > 0:
                 print("These are your saved personal items to bring to your trip: ")
                 for item in personal_items:
-                    print('-', item.capitalize())
-                self.itinerary = personal_items
+                    print('-', item.title())
+                self.personal = personal_items
 
-                return self.itinerary
+                return self.personal
 
 
     def get_covid_restrictions(self):
@@ -201,9 +200,8 @@ class TripPlan(SummerTrip):
         url = "https://api.traveladviceapi.com/search/{}".format(res)
         payload = {}
         headers = {
-            'X-Access-Token': '01871f9a-1d26-469b-b7fb-7c49e4c6bac4'
+            'X-Access-Token': '01871f9a-1d26-469b-b7fb-7c49e4c6bac4' #enter API key here
         }
-        # ee538d1a-ffac-462e-94f3-1b3710691e29 #orginal key
 
         response = requests.request("GET", url, headers=headers, data=payload)
         json_result = response.json()
@@ -216,7 +214,7 @@ class TripPlan(SummerTrip):
             self.restrictions=str([restrictions[i]['level_desc'].replace(',',' ')for i in restrictions])[1:-1]
             
         
-            print(f'\n Current COVID-19 restrictions in {travelling_to.replace(","," ")}:\n ')
+            print(f'\n Current COVID-19 restrictions in{travelling_to.replace(","," ")}:\n ')
         
             for i in restrictions:
                 print(i.upper().replace('_',' '), ': \n',restrictions[i]['level_desc'].replace(',',' '),'\n') 
@@ -242,7 +240,7 @@ def main():
     trip_one.view_essentials()
     trip_one.get_covid_restrictions()
    
-
+    print("Enjoy your trip!")
 
 if __name__ == '__main__':
     main()

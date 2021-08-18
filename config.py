@@ -1,3 +1,3 @@
 HOST = "localhost"
 USER = "root"
-PASSWORD = "password"
+PASSWORD = "" #enter your own mysql password here
