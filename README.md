@@ -108,8 +108,8 @@ Here is a brief description of their functions:
 6) tests.py:
 
 	- This file can be run to test that the functions on main.py work as expected.
-	- *** In order run the tests created for the functions in the main.py module, the following command must be run on the terminal:
-	python3 -m unittest tests.py***
+	- **** In order run the tests created for the functions in the main.py module, the following command must be run on the terminal:
+	python3 -m unittest tests.py****
 
 
 ##### Instructions on how to run the app
