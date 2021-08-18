@@ -8,7 +8,7 @@ TravelApp
 
 TravelApp is an application developed to help the user plan their summer holidays.
 
-TravelApp functions in the following manner: initially, it asks the user in which summer month (June, July, August or September) they would like to travel in. Then, the app provides the top 8 European holiday destinations (cities) and the expected weather in those locations for that month. The app also returns the Covid-related restrictions for the countries in which those cities situated. With this information, the user can make a choice of the city they would like to travel to. After this, the app allows the user to input up to ten personal items to bring to their trip and these will be stored in a 'remainder list'. Finally, the app returns a list of essential suggested items for the user to bring to their holidays (according to the expected weather on the destination of choice) and it also shows the personal items previously added by the user to the remainder list.
+TravelApp functions in the following manner: initially, it asks the user in which summer month (June, July, August or September) they would like to travel in. Then, the app provides the top 8 European holiday city destinations (Paris, London, Rome, Florence, Barcelona, Swiss Alps, Amsterdam or Santorini) and the expected weather in those locations for the month of travel. With this information, the user can make a choice of the city they would like to travel to. After this, the app allows the user to input up to ten personal items to bring on their trip and these will be stored in a personal 'reminder list'. The app then returns a list of suggested essential items for the user to bring on their holidays (according to the expected weather on the destination of choice) and it also shows the personal items previously added by the user to the reminder list. The app finally returns the Covid-related restrictions for the country in which the destination city is situated.
 
 Notes:
 
@@ -56,17 +56,24 @@ Here is a brief description of their functions:
 	ii) 'Months', where each entry refers to a summer month and these are given unique ids; 	
 	iii) 'Weather', where each entry refers to a weather type and these are given unique ids; 
 	iv) 'Essential_items', where each entry refers to an essential item and the weather type for which that item is suggested as essential;
-	v) 'City', where each entry refers to a city, its country, each summer month and the expected weather for that city during that month;
-	vi) 'My_Essentials', which is an empty table that will be populated with items inputted by the user.
+	v) 'City', where each entry refers to a city, it's country, each summer month and the expected weather for that city during that month;
+	vi) 'My_Essentials', which is an empty table that will be populated with items inputted by the user whilst running the travel app.
 
 2) config.py:
 
-	- Contains the 'host' name, 'user' name and 'password' stored as variables needed to be used by the function that establishes a connection with the sql database. This function is defined in the module db_utils.py.
+	- Contains the 'host' name, 'user' name and 'password' stored as variables needed to be used by the function that establishes a connection with the sql database. 
+	****N.B the user needs to enter their mysql password into the string field in line 3 of this file, otherwise will fail to connect to the database.****
+	- This function is defined in the module db_utils.py.
 
 3) db_utils.py:
 
 	- This module contains the functions needed for establishing a connection to the database, querying the database and adding data to it. 
-	- The functions on it do the following: i) retrieve data on the summer months in which the user can choose to travel; ii) retrieve the expected weather type for the top 8 European destinations for the chosen month;  iii) retrieve the essential items needed for travelling in that type of weather; iv) allow the app to insert data on the database table for personal essential items for the trip (to be inputed by the user); and v) delete the data on this last table so the table is emptied before the app is run again. 
+	- The functions in this file do the following: 
+	i) retrieve data on the summer months in which the user can choose to travel; 
+	ii) retrieve the expected weather type for the top 8 European destinations for the chosen month; 
+	iii) retrieve the essential items needed for travelling in that type of weather;
+	iv) allow the app to insert data on the database table for personal essential items for the trip (to be inputed by the user); 
+	v) delete the data on this last table so the table is emptied before the app is run again. 
 
 4) app.py:
 
@@ -98,19 +105,19 @@ Here is a brief description of their functions:
 		 
 	- The module also contains a set of helper functions that are finally invoked by the main function of the app, including a function to retrieve Covid-related restrictions per country (by querying the Travel Advice API). The main function in this module is called main().
 
-7) tests.py:
+6) tests.py:
 
-	- This module can be run to test that the functions on main.py work as expected.
+	- This file can be run to test that the functions on main.py work as expected.
 
 
 ##### Instructions on how to run the app
 
 1) Make sure that mysql-connector Python library is pip installed in your working environment.
-2) Replace the word ''password" in the config.py file by your own mysql password.
+2) Replace the word "password" in the line 3 of the config.py file with your own mysql password.
 3) Run app.py module to generate endpoints.
-4) Run main.py module:
+4) Run main.py module (whilse app.py is also running):
 
-	- This runs the main function main(). This function allows the user to chose a month for their holidays, then, returns the expected weather for that month in the 8 top European holiday destinations. It also shows the Covid-related restrictions for the countries where those cities are located. It then allows the user to chose their destination. After that, the user is prompted to input up to 10 personal items that they would want to be reminded off to bring to their trip. Finally, the app gives back a list of essential suggested items for the trip plus the personal items inputted by the user. For this, follow the set of instructions below (point 5).
+	- This runs the main function main(). This function allows the user to chose a month for their holidays, then, returns the expected weather for that month in the 8 top European holiday destinations. It then allows the user to chose their destination. After that, the user is prompted to input up to 10 personal items that they would want to be reminded of to bring on their trip. Finally, the app gives back a list of essential suggested items for the trip plus the personal items inputted by the user. The app finally returns the Covid-related restrictions for the country in which the destination city is situated. For this, follow the set of instructions below (point 5).
 	
 5) Follow instructions prompted in the python console when running main.py:
 	- Select the summer month you would like to travel in.
