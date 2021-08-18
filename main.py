@@ -6,7 +6,6 @@
 import requests,string
 from db_utils import add_user_personal_items, remove_personal_items,get_country
 from pprint import pprint as pp
-from time import sleep
 
 class SummerTrip:
     def __init__(self):
@@ -23,6 +22,23 @@ class SummerTrip:
         # pp(test)
         #[['August'], ['July'], ['June'], ['September']]
     
+    def get_cities(self):
+        result = requests.get(
+            'http://127.0.0.1:5001/travel/cities/',
+            headers={'content-type': 'application/json'}
+        )
+        return result.json()
+
+    def get_city_weather(self):
+        month = self.month
+        result = requests.get(
+            'http://127.0.0.1:5001/travel/cities-weather-month/{}'.format(month),
+            headers={'content-type': 'application/json'}
+        )
+        return result.json()
+
+    
+    
     def choose_month(self):
         """ This function allows the user to choose a month for
             their summer holidays and returns that month"""
@@ -34,54 +50,54 @@ class SummerTrip:
             print('-', month[0])
             months.append(month[0])
         # print(months)
-        month = input("What month would you like to travel in? ").capitalize().strip()
-        month = month.translate(month.maketrans("", "", string.punctuation))
-        while month not in months:
-            print(f'You cannot travel in {month.title()}')
-            month = input("Please choose a valid month to travel in: ").capitalize().strip()
+        try:
+            month = input("What month would you like to travel in? ").capitalize().strip()
             month = month.translate(month.maketrans("", "", string.punctuation))
-        else:
-            self.month = month
+            month = month.translate(month.maketrans("", "", string.digits))
+            assert month in months
+            self.month=month
             return self.month
+        except AssertionError:
+            while month not in months:
+                print(f'You cannot travel in {month.title()}')
+                month = input("Please choose a valid month to travel in: ").capitalize().strip()
+                month = month.translate(month.maketrans("", "", string.punctuation))
+                month = month.translate(month.maketrans("", "", string.digits))
 
+        finally:
+            return self.month
+            
 
-    def get_cities(self):
-        result = requests.get(
-            'http://127.0.0.1:5001/travel/cities/',
-            headers={'content-type': 'application/json'}
-        )
-        return result.json()
-    
-    def get_city_weather(self):
-        month = self.month
-        result = requests.get(
-            'http://127.0.0.1:5001/travel/cities-weather-month/{}'.format(month),
-            headers={'content-type': 'application/json'}
-        )
-        
-
-        return result.json()
 
 
     def choose_city(self):
         """ This function allows the user to choose a city for
         their summer holidays and returns that city"""
+        
         month= self.month
 
         print("\nThe weather in the top 8 European destinations for {} is the following: ".format(month))
         city_weather = self.get_city_weather()
         for location in city_weather.keys():
             print(location, ':', '', city_weather[location])
-        city = input("\nWhich of these cities would you like to go to: ").capitalize().strip()
-        city = city.translate(city.maketrans("", "", string.punctuation))
-        while city not in city_weather.keys():
-            print(f'You cannot travel to {city.title()}')
-            city = input("Please select a city from this list: ").capitalize().strip()
+        
+        try:
+            city = input("\nWhich city would you like to go to: ").title().strip()
             city = city.translate(city.maketrans("", "", string.punctuation))
-        else:
-            self.destination = city
-            self.weather = ''.join([i for i in city_weather.keys() if  city_weather[i] == self.destination])
-            
+            city = city.translate(city.maketrans("", "", string.digits))
+            if city in city_weather.keys():
+                self.destination = city
+                return self.destination
+            raise KeyError
+        
+        except KeyError:
+            while city not in city_weather.keys():
+                print(f'You cannot travel to {city.title()}')
+                city = input("Please choose a valid city to travel to: ").title().strip()
+                city = city.translate(city.maketrans("", "", string.punctuation))
+                city = city.translate(city.maketrans("", "", string.digits))
+
+        finally:
             return self.destination
 
         # IMPORTANT for DEBUGGING AND TESTING:
@@ -94,7 +110,7 @@ class SummerTrip:
     # choose_city('June')
 
 
-class PlanTrip(SummerTrip):
+class TripPlan(SummerTrip):
     def __init__(self):
         super().__init__()
         
@@ -102,6 +118,7 @@ class PlanTrip(SummerTrip):
         self.destination= None
         self.essentials = None
         self.restrictions = None
+        self.itinerary = None
         
 
     def get_essential_items(self):
@@ -134,28 +151,26 @@ class PlanTrip(SummerTrip):
             headers={'content-type': 'application/json'}
         )
         return result.json()
+    
     def add_personal_items(self):
         """ This function allows the user to add personal items
         needed for their holiday to the DB and returns a list of those items"""
-
         
         user_items_list = []
         counter = 0
-    
         while counter < 10:
             user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ").capitalize().strip()
             if user_item != 'Done':
                 user_items_list=[]
-            # TESTING    ### Good case for testing! What happens if input is 'done' or another word
+        
                 if user_item not in user_items_list:
                     user_items_list.append(user_item)
                     add_user_personal_items(user_item)
                     counter += 1
-            else:
-                #print(user_items_list)
-                return user_items_list
-        #print(user_items_list)
-        return user_items_list
+                                    
+        else:
+            return user_items_list
+    
 
         #add_personal_items()
         # test = get_personal_items()
@@ -163,15 +178,20 @@ class PlanTrip(SummerTrip):
 
     def view_personal_items(self):
         personal_items= self.add_personal_items()
+        
+        try:
+            if len(personal_items) == 0:
+                raise Exception
+        except:
+            return self.essentials
+        else:
+            if len(personal_items) > 0:
+                print("These are your saved personal items to bring to your trip: ")
+                for item in personal_items:
+                    print('-', item.capitalize())
+                self.itinerary = personal_items
 
-        if len(personal_items)>0:
-            print("These are your saved personal items to bring to your trip: ")
-            for item in personal_items:
-                print('-', item.capitalize())
-            self.itinerary = personal_items
-
-            return self.itinerary
-    #try except if item already us in list, raise exception.
+                return self.itinerary
 
 
     def get_covid_restrictions(self):
@@ -188,20 +208,23 @@ class PlanTrip(SummerTrip):
         response = requests.request("GET", url, headers=headers, data=payload)
         json_result = response.json()
         
-      
-        travelling_to = json_result['trips'][0]['to'] #country
-    
-        restrictions = json_result['trips'][0]['advice']['restrictions']
+        try:
+            travelling_to = json_result['trips'][0]['to'] #country
         
-        self.restrictions=str([restrictions[i]['level_desc'].replace(',',' ')for i in restrictions])[1:-1]
+            restrictions = json_result['trips'][0]['advice']['restrictions']
+            
+            self.restrictions=str([restrictions[i]['level_desc'].replace(',',' ')for i in restrictions])[1:-1]
+            
         
-       
-        print(f'\n Current COVID-19 restrictions in {travelling_to.replace(","," ")}:\n ')
-       
-        for i in restrictions:
-            print(i.upper().replace('_',' '), ': \n',restrictions[i]['level_desc'].replace(',',' '),'\n') 
+            print(f'\n Current COVID-19 restrictions in {travelling_to.replace(","," ")}:\n ')
         
-        return self.restrictions
+            for i in restrictions:
+                print(i.upper().replace('_',' '), ': \n',restrictions[i]['level_desc'].replace(',',' '),'\n') 
+        except KeyError:
+            print("Key Error whilst querying API")
+        else:
+            
+            return self.restrictions
         
         
 
@@ -212,7 +235,7 @@ def main():
         summer holidays and to create a remainder list of personal items to bring to their trip
         and returns these items plus suggested essential items for the chosen destination"""
 
-    trip_one= PlanTrip()
+    trip_one= TripPlan()
     trip_one.choose_month()
     trip_one.choose_city()
     trip_one.view_personal_items()
