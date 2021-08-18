@@ -288,3 +288,4 @@ def remove_personal_items():
 #         weather = cur.fetchall()
 #
 #         cur.close()
+

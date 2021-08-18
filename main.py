@@ -63,7 +63,7 @@ class SummerTrip:
                 month = input("Please choose a valid month to travel in: ").capitalize().strip()
                 month = month.translate(month.maketrans("", "", string.punctuation))
                 month = month.translate(month.maketrans("", "", string.digits))
-
+                self.month = month
         finally:
             return self.month
             
@@ -96,7 +96,8 @@ class SummerTrip:
                 city = input("Please choose a valid city to travel to: ").title().strip()
                 city = city.translate(city.maketrans("", "", string.punctuation))
                 city = city.translate(city.maketrans("", "", string.digits))
-
+                self.destination = city
+                # return self.destination
         finally:
             return self.destination
 
@@ -118,7 +119,7 @@ class TripPlan(SummerTrip):
         self.destination= None
         self.essentials = None
         self.restrictions = None
-        self.itinerary = None
+        self.personal_list = None
         
 
     def get_essential_items(self):
@@ -140,8 +141,8 @@ class TripPlan(SummerTrip):
         
         for item in essential_items:
             print('-', item[0].title())
-        self.essentials = essential_items
-
+        self.essentials = [i[0] for i in essential_items]
+        
         return self.essentials
     
 
@@ -158,19 +159,25 @@ class TripPlan(SummerTrip):
         
         user_items_list = []
         counter = 0
+
         while counter < 10:
-            user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ").capitalize().strip()
-            if user_item != 'Done':
-                user_items_list=[]
-        
-                if user_item not in user_items_list:
-                    user_items_list.append(user_item)
-                    add_user_personal_items(user_item)
-                    counter += 1
-                                    
-        else:
-            return user_items_list
-    
+            user_item = input(
+                "\nPlease enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
+            if user_item != 'Done'and user_item not in user_items_list:
+                # TESTING    ### Good case for testing! What happens if input is 'done' or another word
+                user_items_list.append(user_item)
+                add_user_personal_items(user_item)
+                counter += 1
+            elif user_item != 'Done'and user_item in user_items_list:
+                print("Error! Item has already been added to your personal list.")
+                user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
+                user_items_list.append(user_item)
+                add_user_personal_items(user_item)
+                counter += 1
+            else:
+                if user_item == 'Done':
+                    counter = 10
+                    return user_items_list
 
         #add_personal_items()
         # test = get_personal_items()
@@ -186,12 +193,20 @@ class TripPlan(SummerTrip):
             return self.essentials
         else:
             if len(personal_items) > 0:
-                print("These are your saved personal items to bring to your trip: ")
+                print("\nThese are your saved personal items to bring to your trip: ")
                 for item in personal_items:
-                    print('-', item.capitalize())
-                self.itinerary = personal_items
+                    print('-', item.title())
+                    self.personal_list = personal_items
+                
+                return self.personal_list
 
-                return self.itinerary
+    def get_all_items(self):
+        self.itinerary = self.essentials + self.personal_list
+        print("""Here is a full list of items to bring which consists of your personal list and our suggested items: """)
+        for item in self.itinerary:
+            print('-', item.title())
+        return self.itinerary
+
 
 
     def get_covid_restrictions(self):
@@ -201,9 +216,8 @@ class TripPlan(SummerTrip):
         url = "https://api.traveladviceapi.com/search/{}".format(res)
         payload = {}
         headers = {
-            'X-Access-Token': '01871f9a-1d26-469b-b7fb-7c49e4c6bac4'
+            'X-Access-Token': '01871f9a-1d26-469b-b7fb-7c49e4c6bac4' #enter API key here
         }
-        # ee538d1a-ffac-462e-94f3-1b3710691e29 #orginal key
 
         response = requests.request("GET", url, headers=headers, data=payload)
         json_result = response.json()
@@ -216,7 +230,7 @@ class TripPlan(SummerTrip):
             self.restrictions=str([restrictions[i]['level_desc'].replace(',',' ')for i in restrictions])[1:-1]
             
         
-            print(f'\n Current COVID-19 restrictions in {travelling_to.replace(","," ")}:\n ')
+            print(f'\n Current COVID-19 restrictions in{travelling_to.replace(","," ")}:\n ')
         
             for i in restrictions:
                 print(i.upper().replace('_',' '), ': \n',restrictions[i]['level_desc'].replace(',',' '),'\n') 
@@ -225,6 +239,11 @@ class TripPlan(SummerTrip):
         else:
             
             return self.restrictions
+    
+    def goodbye(self):
+        
+        print(f"\nEnjoy your trip to {self.destination}!")
+        return
         
         
 
@@ -240,9 +259,12 @@ def main():
     trip_one.choose_city()
     trip_one.view_personal_items()
     trip_one.view_essentials()
+    trip_one.get_all_items()
     trip_one.get_covid_restrictions()
+    trip_one.goodbye()
+    
    
-
+    
 
 if __name__ == '__main__':
     main()
