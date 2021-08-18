@@ -174,10 +174,10 @@ class TripPlan(SummerTrip):
                 user_items_list.append(user_item)
                 add_user_personal_items(user_item)
                 counter += 1
-        else:
-            if user_item == 'Done':
-                counter = 10
-                return user_items_list
+            else:
+                if user_item == 'Done':
+                    counter = 10
+                    return user_items_list
 
         #add_personal_items()
         # test = get_personal_items()
