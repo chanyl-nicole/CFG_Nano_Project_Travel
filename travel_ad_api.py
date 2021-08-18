@@ -7,6 +7,8 @@ class UserTrip():
         self.dep_city_airport= " "
         self.dest_city_airport= " "
         self.full_info= " " #this will be json object returned by api query
+        
+    
 
     def get_city(self):
         try:
@@ -50,11 +52,16 @@ class UserTrip():
         self.dest_city_airport = to_airport_code
 
     def get_restrictions(self):
+        
+
         restrictions = self.full_info['trips'][0]['advice']['restrictions']
 
         for key, value in restrictions.items():
             for i, x in restrictions.get(key).items():
                 print(key.upper(), ": \n{:<10} {:<10} ".format(i, x))
+                
+
+       
         return
 
     def get_requirements(self):
