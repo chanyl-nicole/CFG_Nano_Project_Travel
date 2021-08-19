@@ -1,6 +1,4 @@
 ### THIS MODULE REPRESENTS THE CLIENT SIDE FOR OUR TRAVEL APP
-
-# This is the code acting in the 'frontend'
 # Main function that runs our travel app is = main function at the bottom of this file
 
 import requests,string
@@ -18,9 +16,7 @@ class SummerTrip:
             headers={'content-type': 'application/json'}
         )
         return result.json()
-        # test = get_month_choices()
-        # pp(test)
-        #[['August'], ['July'], ['June'], ['September']]
+
     
     def get_cities(self):
         result = requests.get(
@@ -49,7 +45,6 @@ class SummerTrip:
         for month in month_choices:
             print('-', month[0])
             months.append(month[0])
-        # print(months)
         try:
             month = input("What month would you like to travel in? ").capitalize().strip()
             month = month.translate(month.maketrans("", "", string.punctuation))
@@ -101,15 +96,6 @@ class SummerTrip:
         finally:
             return self.destination
 
-        # IMPORTANT for DEBUGGING AND TESTING:
-        # here, if input is not a valid city, should raise an Exception!!!!
-        # also, good case for testing what happens if we give the right or wrong input!
-        """ This function allows the user to choose a city for
-        their summer holidays and returns that city"""
-
-
-    # choose_city('June')
-
 
 class TripPlan(SummerTrip):
     def __init__(self):
@@ -131,8 +117,6 @@ class TripPlan(SummerTrip):
         )
         return result.json()
 
-         # test = get_essential_items('June', 'Paris')
-         # pp(test)
     
     def view_essentials(self):
         essential_items = self.get_essential_items()
@@ -164,13 +148,13 @@ class TripPlan(SummerTrip):
             user_item = input(
                 "\nPlease enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
             if user_item != 'Done'and user_item not in user_items_list:
-                # TESTING    ### Good case for testing! What happens if input is 'done' or another word
                 user_items_list.append(user_item)
                 add_user_personal_items(user_item)
                 counter += 1
             elif user_item != 'Done'and user_item in user_items_list:
                 print("Error! Item has already been added to your personal list.")
-                user_item = input("Please enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
+                user_item = input(
+                    "Please enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
                 user_items_list.append(user_item)
                 add_user_personal_items(user_item)
                 counter += 1
@@ -179,11 +163,9 @@ class TripPlan(SummerTrip):
                     counter = 10
                     return user_items_list
 
-        #add_personal_items()
-        # test = get_personal_items()
-        # pp(test)
 
     def view_personal_items(self):
+        """ This function returns the personal reminder list of items """
         personal_items= self.add_personal_items()
         
         try:
@@ -210,7 +192,10 @@ class TripPlan(SummerTrip):
 
 
     def get_covid_restrictions(self):
-        
+        """This function uses the city inputted in the choose city function, then queries the database to find the
+        corresponding country. Finally it queries the Travel Advice Api to return the covid restrictions for that
+        country"""
+
         res = get_country(self.destination)
         res= ''.join(res[0])
         url = "https://api.traveladviceapi.com/search/{}".format(res)
@@ -251,8 +236,9 @@ class TripPlan(SummerTrip):
 
 def main():
     """ This function allows the user to choose a month and city for their
-        summer holidays and to create a remainder list of personal items to bring to their trip
-        and returns these items plus suggested essential items for the chosen destination"""
+        summer holidays and to create a reminder list of personal items to bring to their trip
+        and returns these items plus suggested essential items for the chosen destination.
+        It also returns the covid restrictions for the destination country"""
 
     trip_one= TripPlan()
     trip_one.choose_month()
@@ -260,7 +246,7 @@ def main():
     trip_one.view_personal_items()
     trip_one.view_essentials()
     # trip_one.get_all_items()
-    # trip_one.get_covid_restrictions()
+    trip_one.get_covid_restrictions()
     trip_one.goodbye()
     
    

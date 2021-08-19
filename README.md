@@ -129,4 +129,4 @@ Here is a brief description of their functions:
 
 IMPORTANT NOTE:
 
-Requests to the Travel Advice Api are limited to 100 per account on the free version. If you experience an authentication error for this then it may be that the limit has been reached. If this is the case please sign up for a free account at https://app.traveladviceapi.com/sign-up to generate a new api key. Once you have received your key please insert into the string fields into line 152 of the Main.py file. (Replace the existing key).
+Requests to the Travel Advice Api are limited to 100 per account on the free version. If you experience an authentication error for this then it may be that the limit has been reached. If this is the case please sign up for a free account at https://app.traveladviceapi.com/sign-up to generate a new api key. Once you have received your key please insert into the string fields into line 204 of the Main.py file. (Replace the existing key).
