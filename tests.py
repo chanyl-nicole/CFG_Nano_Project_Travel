@@ -1,3 +1,5 @@
+#File for running unit tests on functions
+
 import unittest
 from unittest.mock import patch
 from main import SummerTrip, TripPlan

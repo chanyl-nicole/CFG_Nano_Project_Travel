@@ -1,3 +1,5 @@
+#App file to define app routes
+
 from flask import Flask, jsonify
 
 from db_utils import (get_country, show_cities, show_cities_and_weather,
