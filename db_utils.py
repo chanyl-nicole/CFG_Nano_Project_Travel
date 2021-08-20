@@ -199,7 +199,7 @@ def add_user_personal_items(user_item):
         cur.execute(query)
         db_connection.commit()
         cur.close()
-    except Exception:
+    except In:
         InterfaceError("This item already exists in list.")
 
     except Exception:
