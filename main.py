@@ -149,8 +149,8 @@ class TripPlan(SummerTrip):
 
                 else:
                     print("Error! Item has already been added to the list.")
-                    user_item = input(
-                        "\nPlease enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
+                    # user_item = input(
+                    #     "\nPlease enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
             elif user_item == 'Done':
                 return user_items_list
 
@@ -215,7 +215,12 @@ class TripPlan(SummerTrip):
         else:
 
             return self.restrictions
-
+    
+    def clear_db(self):
+        #this method clears the items in the database
+        remove_personal_items()
+        return
+    
     def goodbye(self):
 
         print(f"\nEnjoy your trip to {self.destination}!")
@@ -238,6 +243,7 @@ def main():
     # trip_one.get_all_items()
     # trip_one.get_covid_restrictions()
     trip_one.goodbye()
+    trip_one.clear_db()
 
 
 if __name__ == '__main__':
