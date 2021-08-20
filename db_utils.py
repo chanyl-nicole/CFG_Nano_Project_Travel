@@ -1,5 +1,5 @@
 import mysql.connector
-from mysql.connector.errors import InterfaceError
+from mysql.connector.errors import IntegrityError, InterfaceError
 from config import USER, PASSWORD, HOST
 
 
@@ -84,7 +84,7 @@ def get_country(city):
     return country
 
 
-x= get_country('London')
+x = get_country('London')
 ''.join(x[0])
 
 
@@ -199,9 +199,8 @@ def add_user_personal_items(user_item):
         cur.execute(query)
         db_connection.commit()
         cur.close()
-    except Exception:
-        InterfaceError("This item already exists in list.")
-
+    except IntegrityError:
+        print("It looks like you are trying to add an item that has already been saved.")
     except Exception:
         raise DbConnectionError("Failed to read data from DB")
 
@@ -209,8 +208,6 @@ def add_user_personal_items(user_item):
         if db_connection:
             db_connection.close()
             # print("DB connection is closed")
-
-    print("Personal item added")  # print("Personal item added to DB")
 
 
 # add_user_personal_items('raincoat')
