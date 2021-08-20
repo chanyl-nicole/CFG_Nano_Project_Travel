@@ -216,7 +216,7 @@ class TripPlan(SummerTrip):
                 print(i.upper().replace('_', ' '), ': \n', restrictions[i]['level_desc'].replace(',', ' '), '\n')
             return self.restrictions
         except KeyError:
-            print("Key Error whilst querying API")
+            print("Unable to retrieve COVID information as there has been an internal error")
         else:
             return self.restrictions
     
