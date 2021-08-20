@@ -114,6 +114,7 @@ class TripPlan(SummerTrip):
         return result.json()
 
     def view_essentials(self):
+        sleep(0.5)
         essential_items = self.get_essential_items()
 
         print("\nHere is a suggestion of essential items to bring along on your trip based on the weather: ")
@@ -139,7 +140,7 @@ class TripPlan(SummerTrip):
         counter = 0
         while counter < 10:
             user_item = input(
-                "\nPlease enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
+                "Please enter item to be saved on your personal list or enter 'done' when done: ").title().strip()
             if user_item != 'Done':
                 if user_item not in user_items_list:
                     user_items_list.append(user_item)
@@ -158,7 +159,7 @@ class TripPlan(SummerTrip):
         """ This function returns the personal reminder list of items """
         sleep(0.5)
         print(
-            f"""\n\nGreat you have selected to go to {self.destination}!.\nNow you can make a list of things you would like to bring on the trip.""")
+            f"""\nGreat! You have selected to go to {self.destination}!\nNow you can make a list of things you would like to bring on the trip.""")
         personal_items = self.add_personal_items()
 
         try:
@@ -188,13 +189,16 @@ class TripPlan(SummerTrip):
         corresponding country. Finally it queries the Travel Advice Api to return the covid restrictions for that
         country"""
 
+        sleep(0.5)
         res = get_country(self.destination)
         res = ''.join(res[0])
         url = "https://api.traveladviceapi.com/search/{}".format(res)
         payload = {}
         headers = {
-            'X-Access-Token': '01871f9a-1d26-469b-b7fb-7c49e4c6bac4'  # enter API key here
+            'X-Access-Token': '1c306bba-dc9d-4f58-8b57-a3a7cf8f8ec8'  # enter API key here
         }
+        #Amelia's token: 1c306bba-dc9d-4f58-8b57-a3a7cf8f8ec8
+        #Sanale's new token 20/08/2021: 17615da7-3469-421f-ab80-7525426d7c3c
 
         response = requests.request("GET", url, headers=headers, data=payload)
         json_result = response.json()
@@ -210,10 +214,10 @@ class TripPlan(SummerTrip):
 
             for i in restrictions:
                 print(i.upper().replace('_', ' '), ': \n', restrictions[i]['level_desc'].replace(',', ' '), '\n')
+            return self.restrictions
         except KeyError:
             print("Key Error whilst querying API")
         else:
-
             return self.restrictions
     
     def clear_db(self):
@@ -236,14 +240,15 @@ def main():
         It also returns the covid restrictions for the destination country"""
 
     trip_one = TripPlan()
+    trip_one.clear_db()
     trip_one.choose_month()
     trip_one.choose_city()
     trip_one.view_personal_items()
-    # trip_one.view_essentials()
+    trip_one.view_essentials()
     # trip_one.get_all_items()
-    # trip_one.get_covid_restrictions()
+    trip_one.get_covid_restrictions()
     trip_one.goodbye()
-    trip_one.clear_db()
+
 
 
 if __name__ == '__main__':
