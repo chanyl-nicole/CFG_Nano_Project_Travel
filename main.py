@@ -217,8 +217,7 @@ class TripPlan(SummerTrip):
             return self.restrictions
         except KeyError:
             print("Unable to retrieve COVID information as there has been an internal error")
-        else:
-            return self.restrictions
+        
     
     def clear_db(self):
         #this method clears the items in the database
