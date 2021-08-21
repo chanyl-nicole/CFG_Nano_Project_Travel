@@ -1,3 +1,5 @@
+#This file was orginally used to test the different returns that we could get from the travel advice api
+
 import requests
 
 class UserTrip():
