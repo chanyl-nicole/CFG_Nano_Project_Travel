@@ -124,7 +124,7 @@ class WorkingWithItemsTestCase(unittest.TestCase):
         """Test to check that a user can add more than one item to the list"""
         trip_plan = TripPlan()
         result = trip_plan.add_personal_items()
-        self.assertEqual(result, ['Medication', 'Cards', 'Covid test'])
+        self.assertEqual(result, ['Medication', 'Cards', 'Covid Test'])
 
 if __name__ == '__main__':
     unittest.main()

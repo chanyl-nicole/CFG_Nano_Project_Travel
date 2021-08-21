@@ -1,5 +1,5 @@
 import mysql.connector
-from mysql.connector.errors import InterfaceError
+from mysql.connector.errors import IntegrityError, InterfaceError
 from config import USER, PASSWORD, HOST
 
 
@@ -25,7 +25,6 @@ def show_essential_items(month, city):
         db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
-        # print("Connected to DB: %s" % db_name)
 
         query = """
         SELECT Item,Weather_type,City, Month FROM Essential_Items as e
@@ -46,13 +45,9 @@ def show_essential_items(month, city):
     finally:
         if db_connection:
             db_connection.close()
-            # print("DB connection is closed")
 
     return essential_items
 
-
-# items = show_essential_items('August', 'Barcelona')
-# print(items)
 
 def get_country(city):
     try:
@@ -84,7 +79,7 @@ def get_country(city):
     return country
 
 
-x= get_country('London')
+x = get_country('London')
 ''.join(x[0])
 
 
@@ -94,7 +89,6 @@ def show_cities():
         db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
-        # print("Connected to DB: %s" % db_name)
 
         query = "SELECT DISTINCT City FROM City"
         cur.execute(query)
@@ -109,13 +103,8 @@ def show_cities():
     finally:
         if db_connection:
             db_connection.close()
-            # print("DB connection is closed")
-
     return cities
 
-
-# show_cities()
-# print(show_cities())
 
 def show_months():
     """ This function returns a list of the summer months in which
@@ -124,7 +113,6 @@ def show_months():
         db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
-        # print("Connected to DB: %s" % db_name)
 
         query = "SELECT month FROM Months"
         cur.execute(query)
@@ -139,13 +127,8 @@ def show_months():
     finally:
         if db_connection:
             db_connection.close()
-            # print("DB connection is closed")
 
     return months
-
-
-# show_months()
-# print(show_months())
 
 
 def show_cities_and_weather(month):
@@ -155,7 +138,6 @@ def show_cities_and_weather(month):
         db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
-        # print("Connected to DB: %s" % db_name)
 
         query = """
         SELECT City, Weather_type from City as c
@@ -177,12 +159,10 @@ def show_cities_and_weather(month):
     finally:
         if db_connection:
             db_connection.close()
-            # print("DB connection is closed")
+
 
     return cities_weather
 
-
-# print(show_cities_and_weather('August'))
 
 def add_user_personal_items(user_item):
     """ This function adds personal items inputted by the user
@@ -191,7 +171,6 @@ def add_user_personal_items(user_item):
         db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
-        # print("Connected to DB: %s" % db_name)
 
         query = """INSERT INTO My_Essentials (MyEssentialItem)
          VALUES ('{}')""".format(user_item)
@@ -199,21 +178,15 @@ def add_user_personal_items(user_item):
         cur.execute(query)
         db_connection.commit()
         cur.close()
-    except In:
-        InterfaceError("This item already exists in list.")
-
+    except IntegrityError:
+        print("It looks like you are trying to add an item that has already been saved.")
     except Exception:
         raise DbConnectionError("Failed to read data from DB")
 
     finally:
         if db_connection:
             db_connection.close()
-            # print("DB connection is closed")
 
-    print("Personal item added")  # print("Personal item added to DB")
-
-
-# add_user_personal_items('raincoat')
 
 def show_personal_items():
     """ This function returns a list of personal items needed for travelling
@@ -222,7 +195,7 @@ def show_personal_items():
         db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
-        # print("Connected to DB: %s" % db_name)
+
 
         query = "SELECT MyEssentialItem FROM My_Essentials"
         cur.execute(query)
@@ -237,13 +210,9 @@ def show_personal_items():
     finally:
         if db_connection:
             db_connection.close()
-            # print("DB connection is closed")
 
     return personal_items
 
-
-# show_personal_items()
-# print(show_personal_items())
 
 def remove_personal_items():
     """ This function clears the table storing personal items
@@ -252,7 +221,6 @@ def remove_personal_items():
         db_name = 'travelApp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
-        # print("Connected to DB: %s" % db_name)
 
         query = """DELETE FROM My_Essentials WHERE (MyEssentialItem) IS NOT NULL"""
 
@@ -266,26 +234,6 @@ def remove_personal_items():
     finally:
         if db_connection:
             db_connection.close()
-            # print("DB connection is closed")
 
-    # print("Personal items removed from DB")
 
-# remove_personal_items()
-
-#####
-
-## I don't think we will use this function below for now (or at all), we will see
-
-# def show_weather():
-#     try:
-#         db_name = 'travelApp'
-#         db_connection = _connect_to_db(db_name)
-#         cur = db_connection.cursor()
-#         print("Connected to DB: %s" % db_name)
-#
-#         query = "SELECT DISTINCT WeatherType FROM CityWeatherByMonth"
-#         cur.execute(query)
-#         weather = cur.fetchall()
-#
-#         cur.close()
 
