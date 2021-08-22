@@ -126,6 +126,17 @@ class WorkingWithItemsTestCase(unittest.TestCase):
         result = trip_plan.add_personal_items()
         self.assertEqual(result, ['Medication', 'Cards', 'Covid Test'])
 
+
+class CovidAPITestCase(unittest.TestCase):
+    city = ['Tokyo']
+    @patch('db_utils._connect_to_db')
+    @patch('builtins.input', side_effect=city)
+    def test_adding_incorrect_city(self, mock_inputs, mock_city):
+        """ Test to check if COVID API function will return results for a city that is not specified within db"""
+        trip_plan = TripPlan()
+        result = trip_plan.get_covid_restrictions()
+        self.assertEqual(result, None)
+
 if __name__ == '__main__':
     unittest.main()
 #
